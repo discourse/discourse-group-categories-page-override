@@ -80,35 +80,45 @@ export default {
       );
 
       // editing Discourse defaults
-      api.modifyClass("controller:discovery/categories", {
-        @discourseComputed("model.parentCategory")
-        categoryPageStyle(parentCategory) {
-          let defaultCategoriesStyle = this._super();
+      api.modifyClass(
+        "controller:discovery/categories",
+        (Superclass) =>
+          class extends Superclass {
+            @discourseComputed("model.parentCategory")
+            categoryPageStyle(parentCategory) {
+              let defaultCategoriesStyle = super.categoryPageStyle;
 
-          if (!this.site.mobileView && !parentCategory) {
-            return settingCategoriesStyle;
+              if (!this.site.mobileView && !parentCategory) {
+                return settingCategoriesStyle;
+              }
+
+              return defaultCategoriesStyle;
+            }
           }
-
-          return defaultCategoriesStyle;
-        },
-      });
+      );
 
       // make sure we have the right content for the relevant categories page
-      api.modifyClass("route:discovery.categories", {
-        findCategories() {
-          let parentCategory = this.get("model.parentCategory");
-          if (parentCategory) {
-            return CategoryList.listForParent(this.store, parentCategory);
-          } else if (
-            settingCategoriesStyle === "categories-and-latest-topics"
-          ) {
-            return this._findCategoriesAndTopics("latest");
-          } else if (settingCategoriesStyle === "categories-and-top-topics") {
-            return this._findCategoriesAndTopics("top");
+      api.modifyClass(
+        "route:discovery.categories",
+        (Superclass) =>
+          class extends Superclass {
+            findCategories() {
+              let parentCategory = this.get("model.parentCategory");
+              if (parentCategory) {
+                return CategoryList.listForParent(this.store, parentCategory);
+              } else if (
+                settingCategoriesStyle === "categories-and-latest-topics"
+              ) {
+                return this._findCategoriesAndTopics("latest");
+              } else if (
+                settingCategoriesStyle === "categories-and-top-topics"
+              ) {
+                return this._findCategoriesAndTopics("top");
+              }
+              return CategoryList.list(this.store);
+            }
           }
-          return CategoryList.list(this.store);
-        },
-      });
+      );
     });
   },
 };
