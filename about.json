@@ -1,7 +1,7 @@
 {
+  "name": "Group Categories Page Override",
   "about_url": "https://meta.discourse.org/t/group-categories-page-override/223560",
   "license_url": null,
-  "assets": {},
-  "name": "Group Categories Page Override",
-  "component": true
+  "component": true,
+  "assets": {}
 }

@@ -45,7 +45,7 @@ export default {
           return arr.every((i) => arr2.includes(i));
         }
 
-        // find user group matches in the theme setting, remove exluded groups
+        // find user group matches in the theme setting, remove excluded groups
         if (arrayMatch(groupNames, userGroups)) {
           if (!arrayMatch(excludeNames, userGroups)) {
             allowedGroups.push(setting);
