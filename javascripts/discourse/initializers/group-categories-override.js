@@ -6,7 +6,7 @@ import CategoryList from "discourse/models/category-list";
 export default {
   name: "category-layout-override",
   initialize() {
-    withPluginApi("0.8", (api) => {
+    withPluginApi((api) => {
       // get the theme setting
       let parsedSetting = JSON.parse(settings.group_categories);
 
