@@ -1,5 +1,5 @@
+import { computed } from "@ember/object";
 import { dasherize } from "@ember/string";
-import discourseComputed from "discourse/lib/decorators";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import CategoryList from "discourse/models/category-list";
 
@@ -84,11 +84,11 @@ export default {
         "controller:discovery/categories",
         (Superclass) =>
           class extends Superclass {
-            @discourseComputed("model.parentCategory")
-            categoryPageStyle(parentCategory) {
+            @computed("model.parentCategory")
+            get categoryPageStyle() {
               let defaultCategoriesStyle = super.categoryPageStyle;
 
-              if (!this.site.mobileView && !parentCategory) {
+              if (!this.site.mobileView && !this.model?.parentCategory) {
                 return settingCategoriesStyle;
               }
 
